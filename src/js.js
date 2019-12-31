@@ -29,7 +29,7 @@ $startButton.addEventListener("click", function() {
   gameTemplate = setInterval(function() {
     apparitionCactusTimeout = setTimeout(createCactus, getRandomNumber());
   }, 2300);
-  pikaEatACactusTemplate = setInterval(pikaEatACactus, 1);
+  pikaEatACactusTemplate = setInterval(pikaEatACactus, 10);
 
   scoreTemplate = setInterval(increaseScore, 100);
 });
