@@ -2,8 +2,8 @@
   from {
     bottom: 100px;
   }
-  70% {
-    bottom: 180px;
+  50% {
+    bottom: 200px;
   }
   to {
     bottom: 100px;
@@ -25,11 +25,5 @@
 @keyframes mountain-move {
   100% {
     left: -400px;
-  }
-}
-
-@keyframes cactus-move {
-  100% {
-    left: -10px;
   }
 }

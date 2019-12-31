@@ -38,19 +38,7 @@ $startButton.addEventListener("click", function() {
 
   scoreTemplate = setInterval(increaseScore, 100);
 
-  setInterval(function pikaEatACactus() {
-    let pikaPositionX = $pikachu.offsetLeft + $pikachu.offsetWidth;
-    let pikaPositionY = $pikachu.offsetTop + $pikachu.offsetHeight;
-
-    cactusPosition.forEach(function(cactus) {
-      if (
-        cactus.offsetLeft === pikaPositionX &&
-        cactus.offsetTop < pikaPositionY
-      ) {
-        reset();
-      }
-    });
-  }, 1);
+  setInterval(pikaEatACactus, 1);
 });
 /* SECTION FUNCTIONS*/
 
@@ -86,7 +74,7 @@ function pikachuMove() {
           $pikachu.classList.add("is-jumping");
           jumpDuration = setTimeout(function() {
             $pikachu.classList.remove("is-jumping");
-          }, 1400);
+          }, 900);
         }
         break;
       case "ArrowDown":
@@ -142,8 +130,23 @@ function createCactus() {
   setInterval(function() {
     positionX -= 1;
     $cactus.style.left = positionX + "px";
-  }, 10);
+  }, 8);
   cactusPosition.push($cactus);
+}
+
+function pikaEatACactus() {
+  let pikaPositionX = $pikachu.offsetLeft + $pikachu.offsetWidth - 10;
+  let pikaPositionY = $pikachu.offsetTop + $pikachu.offsetHeight - 5;
+
+  cactusPosition.forEach(function(cactus) {
+    if (
+      cactus.offsetLeft < pikaPositionX &&
+      $pikachu.offsetLeft + 20 < cactus.offsetLeft + cactus.offsetWidth &&
+      cactus.offsetTop < pikaPositionY
+    ) {
+      reset();
+    }
+  });
 }
 
 function reset() {
@@ -168,7 +171,7 @@ function reset() {
     $pikachu.remove();
     createPikachu();
     loose = false;
-  }, 3000);
+  }, 3500);
 }
 
 function removeCactus() {
