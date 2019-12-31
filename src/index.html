@@ -9,13 +9,21 @@
   </head>
   <body>
     <div class="game">
+      <div class="game__sun"></div>
       <div class="game__ground"></div>
       <div class="game__mountain">
         <div class="mountain mountain1"></div>
       </div>
       <button class="start">START</button>
-      <div class="game__score">SCORE : 0</div>
-      <div class="overlay"><p class="overlay__text">YOU'RE DEAD</p></div>
+      <div class="game__life"></div>
+      <div class="game__score"></div>
+      <div class="overlay">
+        <p class="overlay__text">
+          YOU LOOSE
+          <br />
+          <img src="images/pika-dead.png" />
+        </p>
+      </div>
     </div>
 
     <script type="text/javascript" src="js.js"></script>

@@ -1,39 +1,42 @@
 const $game = document.querySelector(".game");
 const $startButton = document.querySelector(".start");
 const $score = document.querySelector(".game__score");
-const $mountains = document.querySelector(".game__mountain");
+const $mountainsSection = document.querySelector(".game__mountain");
 const $originalMountains = document.querySelector(".mountain1");
 const $overlay = document.querySelector(".overlay");
+const $sun = document.querySelector(".game__sun");
+const $showLife = document.querySelector(".game__life");
+
 let cactus = [];
+let mountains = [];
 
 let $pikachu;
-let $mountain;
 
 let cactusPosition = [];
 let GAMEWIDTH = 700;
 let score = 0;
+let lifes = 4;
 
 let scoreTemplate;
 let gameTemplate;
 let apparitionMountainsTemplate;
 let apparitionCactusTimeout;
-let pikaEatACactusTemplate;
 
 createPikachu();
+$showLife.innerHTML = "Life : " + lifes;
+$score.innerHTML = "Score : " + score;
 
 $startButton.addEventListener("click", function() {
   pikachuMove();
   createMountains();
   mountainsBackgroundMove();
 
-  apparitionMountainsTemplate = setInterval(createMountains, 15000);
+  apparitionMountainsTemplate = setInterval(createMountains, 8000);
   gameTemplate = setInterval(function() {
     apparitionCactusTimeout = setTimeout(createCactus, getRandomNumber());
   }, 2300);
 
   scoreTemplate = setInterval(increaseScore, 100);
-
-  setInterval(pikaEatACactus, 1);
 });
 
 /* SECTION FUNCTIONS*/
@@ -56,7 +59,7 @@ function getRandomNumberMountainSize() {
   let number;
   do {
     number = Math.floor(Math.random() * 300);
-  } while (number < 200);
+  } while (number < 100);
   return number;
 }
 
@@ -106,17 +109,22 @@ function mountainsBackgroundMove() {
 }
 
 function createMountains() {
-  $mountain = document.createElement("div");
+  const $mountain = document.createElement("div");
   $mountain.classList.add("mountain");
   $mountain.classList.add("move");
 
   $mountain.style.width = getRandomNumberMountainSize() + "px";
   $mountain.style.height = getRandomNumberMountainSize() + "px";
-  $mountains.appendChild($mountain);
+  $mountainsSection.appendChild($mountain);
+
+  mountains.push($mountain);
 }
 
 function removeMountain() {
-  $mountain.style.visibility = "hidden";
+  mountains.forEach(function(mountain) {
+    mountain.remove();
+  });
+  mountains = [];
   $originalMountains.style.visibility = "hidden";
   $originalMountains.classList.remove("move");
   $originalMountains.style.left = "0px";
@@ -141,6 +149,7 @@ function removeCactus() {
   });
 }
 
+let pikaEatACactusTemplate = setInterval(pikaEatACactus, 1);
 function pikaEatACactus() {
   let pikaPositionX = $pikachu.offsetLeft + $pikachu.offsetWidth - 10;
   let pikaPositionY = $pikachu.offsetTop + $pikachu.offsetHeight - 5;
@@ -151,30 +160,49 @@ function pikaEatACactus() {
       $pikachu.offsetLeft + 20 < cactus.offsetLeft + cactus.offsetWidth &&
       cactus.offsetTop < pikaPositionY
     ) {
-      reset();
+      if (lifes > 0) {
+        lifes--;
+        clearInterval(pikaEatACactusTemplate);
+        $pikachu.classList.add("is-flashing");
+        $showLife.innerHTML = "Life : " + lifes;
+        setTimeout(function() {
+          $pikachu.classList.remove("is-flashing");
+          pikaEatACactusTemplate = setInterval(pikaEatACactus, 1);
+        }, 3000);
+      } else {
+        reset();
+      }
     }
   });
+  console.log(lifes);
 }
 
 function reset() {
+  lifes = 4;
+  score = 0;
+
   clearTimeout(apparitionCactusTimeout);
   clearInterval(gameTemplate);
   clearInterval(scoreTemplate);
   clearInterval(apparitionMountainsTemplate);
+  clearInterval(pikaEatACactusTemplate);
 
   $pikachu.classList.add("is-dead");
   $overlay.classList.add("is-visible");
+  $sun.style.visibility = "hidden";
 
   removeCactus();
   removeMountain();
 
   setTimeout(function() {
     $overlay.classList.remove("is-visible");
-    $score.innerHTML = "SCORE : " + 0;
-    score = 0;
     $originalMountains.style.visibility = "visible";
+    $sun.style.visibility = "visible";
+
+    $showLife.innerHTML = "Life : " + lifes;
+    $score.innerHTML = "SCORE : " + score;
 
     $pikachu.remove();
     createPikachu();
-  }, 3500);
+  }, 3000);
 }

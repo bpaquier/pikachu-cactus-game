@@ -15,6 +15,14 @@
 .game__score {
   position: absolute;
   right: 10px;
-  bottom: 15px;
+  bottom: 10px;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.game__life {
+  position: absolute;
+  bottom: 10px;
+  left: 45%;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 1.5em;
 }

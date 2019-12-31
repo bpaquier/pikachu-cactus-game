@@ -10,12 +10,30 @@
   }
 }
 
+@keyframes is-flashing {
+  20% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes loose {
   from {
     transform: rotateX(-180deg);
   }
   50% {
-    transform: rotateX(-180deg) translateY(250px);
+    transform: rotateX(-180deg) translateY(200px);
   }
   to {
     transform: rotateX(-180deg) translateY(-350px);
@@ -25,5 +43,27 @@
 @keyframes mountain-move {
   100% {
     left: -400px;
+  }
+}
+
+@keyframes sun-move {
+  to {
+    transform: none;
+  }
+  25% {
+    transform: translateY(-75px);
+    left: 25%;
+  }
+  50% {
+    transform: translateY(-100px);
+    left: 50%;
+  }
+  75% {
+    transform: translateY(-75px);
+    left: 75%;
+  }
+  to {
+    transform: none;
+    left: 100%;
   }
 }
