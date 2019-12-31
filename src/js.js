@@ -7,24 +7,19 @@ const $overlay = document.querySelector(".overlay");
 let cactus = [];
 
 let $pikachu;
-
-function createPikachu() {
-  $pikachu = document.createElement("div");
-  $pikachu.classList.add("game__pikachu");
-  $game.appendChild($pikachu);
-}
-
-createPikachu();
+let $mountain;
 
 let cactusPosition = [];
 let GAMEWIDTH = 700;
 let score = 0;
+
 let scoreTemplate;
 let gameTemplate;
 let apparitionMountainsTemplate;
 let apparitionCactusTimeout;
 let pikaEatACactusTemplate;
-let loose;
+
+createPikachu();
 
 $startButton.addEventListener("click", function() {
   pikachuMove();
@@ -40,7 +35,14 @@ $startButton.addEventListener("click", function() {
 
   setInterval(pikaEatACactus, 1);
 });
+
 /* SECTION FUNCTIONS*/
+
+function createPikachu() {
+  $pikachu = document.createElement("div");
+  $pikachu.classList.add("game__pikachu");
+  $game.appendChild($pikachu);
+}
 
 function getRandomNumber() {
   let number;
@@ -104,22 +106,20 @@ function mountainsBackgroundMove() {
 }
 
 function createMountains() {
-  const $mountain = document.createElement("div");
+  $mountain = document.createElement("div");
   $mountain.classList.add("mountain");
   $mountain.classList.add("move");
 
   $mountain.style.width = getRandomNumberMountainSize() + "px";
   $mountain.style.height = getRandomNumberMountainSize() + "px";
   $mountains.appendChild($mountain);
+}
 
-  setInterval(function() {
-    if ($mountain.offsetLeft < -100 || loose) {
-      $mountain.style.visibility = "hidden";
-      $originalMountains.style.visibility = "hidden";
-      $originalMountains.classList.remove("move");
-      $originalMountains.style.left = "0px";
-    }
-  }, 50);
+function removeMountain() {
+  $mountain.style.visibility = "hidden";
+  $originalMountains.style.visibility = "hidden";
+  $originalMountains.classList.remove("move");
+  $originalMountains.style.left = "0px";
 }
 
 function createCactus() {
@@ -132,6 +132,13 @@ function createCactus() {
     $cactus.style.left = positionX + "px";
   }, 8);
   cactusPosition.push($cactus);
+}
+
+function removeCactus() {
+  let allCactus = document.querySelectorAll(".game__cactus");
+  allCactus.forEach(function(cactus) {
+    cactus.remove();
+  });
 }
 
 function pikaEatACactus() {
@@ -150,8 +157,6 @@ function pikaEatACactus() {
 }
 
 function reset() {
-  loose = true;
-
   clearTimeout(apparitionCactusTimeout);
   clearInterval(gameTemplate);
   clearInterval(scoreTemplate);
@@ -161,6 +166,7 @@ function reset() {
   $overlay.classList.add("is-visible");
 
   removeCactus();
+  removeMountain();
 
   setTimeout(function() {
     $overlay.classList.remove("is-visible");
@@ -170,13 +176,5 @@ function reset() {
 
     $pikachu.remove();
     createPikachu();
-    loose = false;
   }, 3500);
-}
-
-function removeCactus() {
-  let allCactus = document.querySelectorAll(".game__cactus");
-  allCactus.forEach(function(cactus) {
-    cactus.remove();
-  });
 }
