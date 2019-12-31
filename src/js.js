@@ -7,6 +7,7 @@ const $overlay = document.querySelector(".overlay");
 
 const $pikachu = document.createElement("div");
 $pikachu.classList.add("game__pikachu");
+$game.appendChild($pikachu);
 
 let cactusPosition = [];
 let GAMEWIDTH = 700;
@@ -19,7 +20,6 @@ let pikaEatACactusTemplate;
 let loose;
 
 $startButton.addEventListener("click", function() {
-  createPikachu();
   pikachuMove();
   createMountains();
   mountainsBackgroundMove();
@@ -54,12 +54,8 @@ function increaseScore() {
   $score.innerHTML = "SCORE : " + score;
 }
 
-function createPikachu() {
-  $pikachu.classList.remove("is-dead");
-  $game.appendChild($pikachu);
-}
-
 function pikachuMove() {
+  $pikachu.classList.add("is-running");
   window.addEventListener("keydown", function(e) {
     let jumpDuration;
     let pikachuPosition = $pikachu.offsetLeft;
@@ -135,7 +131,7 @@ setInterval(function pikaEatACactus() {
       reset();
     }
   }
-}, 10);
+}, 1);
 
 function reset() {
   loose = true;
@@ -156,6 +152,7 @@ function reset() {
     score = 0;
     $originalMountains.style.visibility = "visible";
     $originalMountains.classList.remove("move");
+    $pikachu.classList.remove("is-dead", "is-running");
     loose = false;
   }, 3000);
 }
