@@ -19,7 +19,6 @@ let pikaEatACactusTemplate;
 let loose;
 
 $startButton.addEventListener("click", function() {
-  loose = false;
   createPikachu();
   pikachuMove();
   createMountains();
@@ -29,8 +28,6 @@ $startButton.addEventListener("click", function() {
   gameTemplate = setInterval(function() {
     apparitionCactusTimeout = setTimeout(createCactus, getRandomNumber());
   }, 2300);
-  pikaEatACactusTemplate = setInterval(pikaEatACactus, 10);
-
   scoreTemplate = setInterval(increaseScore, 100);
 });
 
@@ -113,8 +110,8 @@ function createMountains() {
 
   setInterval(function() {
     if ($mountain.offsetLeft < -100 || loose) {
-      $mountain.remove();
-      $originalMountains.remove();
+      $mountain.style.visibility = "hidden";
+      $originalMountains.style.visibility = "hidden";
     }
   }, 50);
 }
@@ -126,7 +123,7 @@ function createCactus() {
   $game.appendChild($cactus);
 }
 
-function pikaEatACactus() {
+setInterval(function pikaEatACactus() {
   let allCactus = document.querySelectorAll(".game__cactus");
   let pikaPositionX = $pikachu.offsetLeft + $pikachu.offsetWidth;
   let pikaPositionY = $pikachu.offsetTop + $pikachu.offsetHeight;
@@ -135,11 +132,10 @@ function pikaEatACactus() {
       cactus.offsetLeft === pikaPositionX &&
       cactus.offsetTop < pikaPositionY
     ) {
-      clearInterval(pikaEatACactusTemplate);
       reset();
     }
   }
-}
+}, 10);
 
 function reset() {
   loose = true;
@@ -151,14 +147,22 @@ function reset() {
 
   $pikachu.classList.add("is-dead");
   $overlay.classList.add("is-visible");
-  let allCactus = document.querySelectorAll(".game__cactus");
-  allCactus.forEach(function(cactus) {
-    cactus.remove();
-  });
+
+  removeCactus();
 
   setTimeout(function() {
     $overlay.classList.remove("is-visible");
     $score.innerHTML = "SCORE : " + 0;
     score = 0;
+    $originalMountains.style.visibility = "visible";
+    $originalMountains.classList.remove("move");
+    loose = false;
   }, 3000);
+}
+
+function removeCactus() {
+  let allCactus = document.querySelectorAll(".game__cactus");
+  allCactus.forEach(function(cactus) {
+    cactus.remove();
+  });
 }
