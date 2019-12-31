@@ -1,0 +1,35 @@
+@keyframes jump {
+  from {
+    bottom: 100px;
+  }
+  70% {
+    bottom: 180px;
+  }
+  to {
+    bottom: 100px;
+  }
+}
+
+@keyframes loose {
+  from {
+    transform: rotateX(-180deg);
+  }
+  50% {
+    transform: rotateX(-180deg) translateY(250px);
+  }
+  to {
+    transform: rotateX(-180deg) translateY(-350px);
+  }
+}
+
+@keyframes mountain-move {
+  100% {
+    left: -400px;
+  }
+}
+
+@keyframes cactus-move {
+  100% {
+    left: -10px;
+  }
+}

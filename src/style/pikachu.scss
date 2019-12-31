@@ -1,0 +1,20 @@
+.game__pikachu {
+  position: absolute;
+  width: 50px;
+  height: 40px;
+  background-image: url("../images/pikachu.gif");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  bottom: 100px;
+  left: 50px;
+}
+
+.game__pikachu.is-jumping {
+  animation: jump 1.5s ease-out;
+  background-image: url("../images/pikachuJump.png");
+}
+
+.game__pikachu.is-dead {
+  animation: loose 1.5s ease-out forwards;
+}
