@@ -27,6 +27,8 @@ $showLife.innerHTML = "Life : " + lifes;
 $score.innerHTML = "Score : " + score;
 
 $startButton.addEventListener("click", function() {
+  move = true;
+
   pikachuMove();
   createMountains();
   mountainsBackgroundMove();
@@ -174,7 +176,6 @@ function pikaEatACactus() {
       }
     }
   });
-  console.log(lifes);
 }
 
 function reset() {
@@ -185,7 +186,6 @@ function reset() {
   clearInterval(gameTemplate);
   clearInterval(scoreTemplate);
   clearInterval(apparitionMountainsTemplate);
-  clearInterval(pikaEatACactusTemplate);
 
   $pikachu.classList.add("is-dead");
   $overlay.classList.add("is-visible");
