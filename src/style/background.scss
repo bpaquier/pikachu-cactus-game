@@ -1,6 +1,12 @@
 $game-width: 700px;
 
+body {
+  background-color: black;
+  display: flex;
+}
+
 .game {
+  margin: auto;
   position: relative;
   width: $game-width;
   height: 500px;
