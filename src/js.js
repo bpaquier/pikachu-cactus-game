@@ -12,6 +12,8 @@ let mountains = [];
 
 let $pikachu;
 
+let isStarted = true;
+let isJumping = false;
 let cactusPosition = [];
 let GAMEWIDTH = 700;
 let score = 0;
@@ -26,6 +28,7 @@ $showLife.innerHTML = "Life : " + lifes;
 $score.innerHTML = "Score : " + score;
 
 createPikachu();
+let pikaEatACactusTemplate = setInterval(pikaEatACactus, 1);
 
 $startButton.addEventListener("click", function() {
   start();
@@ -34,14 +37,17 @@ $startButton.addEventListener("click", function() {
 /* SECTION FUNCTIONS*/
 
 function start() {
-  pikachuMove();
-  createMountains();
-  mountainsBackgroundMove();
-  apparitionMountainsTemplate = setInterval(createMountains, 10000);
-  gameTemplate = setInterval(function() {
-    apparitionCactusTimeout = setTimeout(createCactus, getRandomNumber());
-  }, 2300);
-  scoreTemplate = setInterval(increaseScore, 100);
+  if (isStarted) {
+    isStarted = false;
+    pikachuMove();
+    createMountains();
+    mountainsBackgroundMove();
+    apparitionMountainsTemplate = setInterval(createMountains, 10000);
+    gameTemplate = setInterval(function() {
+      apparitionCactusTimeout = setTimeout(createCactus, getRandomNumber());
+    }, 2300);
+    scoreTemplate = setInterval(increaseScore, 100);
+  }
 }
 
 function createPikachu() {
@@ -102,22 +108,26 @@ function pikachuMove() {
         break;
     }
   });
-  window.addEventListener("click", function() {
+  document.addEventListener("click", function() {
     jump();
   });
 }
 
 function jump() {
-  $pikachu.classList.add("is-jumping");
-  jumpDuration = setTimeout(function() {
-    $pikachu.classList.remove("is-jumping");
-  }, 900);
+  if (!isJumping) {
+    $pikachu.classList.add("is-jumping");
+    jumpDuration = setTimeout(function() {
+      $pikachu.classList.remove("is-jumping");
+    }, 900);
+  }
 }
+
 function mountainsBackgroundMove() {
   $originalMountains.classList.add("move");
 }
 
 function createMountains() {
+  console.log(isStarted);
   const $mountain = document.createElement("div");
   $mountain.classList.add("mountain");
   $mountain.classList.add("move");
@@ -158,7 +168,6 @@ function removeCactus() {
   });
 }
 
-let pikaEatACactusTemplate = setInterval(pikaEatACactus, 1);
 function pikaEatACactus() {
   let pikaPositionX = $pikachu.offsetLeft + $pikachu.offsetWidth - 10;
   let pikaPositionY = $pikachu.offsetTop + $pikachu.offsetHeight - 5;
@@ -188,6 +197,7 @@ function pikaEatACactus() {
 function reset() {
   lifes = 4;
   score = 0;
+  isStarted = true;
 
   clearTimeout(apparitionCactusTimeout);
   clearInterval(gameTemplate);
