@@ -19,12 +19,13 @@
 }
 
 .game__pikachu.is-jumping {
-  animation: jump 1s;
+  animation: jump 0.5s cubic-bezier(0.46, 1.06, 0.64, 0.99) alternate infinite;
   background-image: url("../images/pikachuJump.png");
 }
 
 .game__pikachu.is-jumping.is-flashing {
-  animation: jump 1s, is-flashing 0.5s alternate infinite;
+  animation: jump 0.5s cubic-bezier(0.46, 1.06, 0.64, 0.99) alternate infinite,
+    is-flashing 0.5s alternate infinite;
   background-image: url("../images/pikachuJump.png");
 }
 

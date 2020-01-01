@@ -7,17 +7,16 @@ const $overlay = document.querySelector(".overlay");
 const $sun = document.querySelector(".game__sun");
 const $showLife = document.querySelector(".game__life");
 
-let cactus = [];
-let mountains = [];
-
-let $pikachu;
-
 let isStarted = true;
 let isJumping = false;
-let cactusPosition = [];
+let pikaInvicible = false;
+
 let GAMEWIDTH = 700;
 let score = 0;
 let lifes = 4;
+
+let mountains = [];
+let cactusPosition = [];
 
 let scoreTemplate;
 let gameTemplate;
@@ -28,7 +27,6 @@ $showLife.innerHTML = "Life : " + lifes;
 $score.innerHTML = "Score : " + score;
 
 createPikachu();
-let pikaEatACactusTemplate = setInterval(pikaEatACactus, 1);
 
 $startButton.addEventListener("click", function() {
   start();
@@ -118,7 +116,7 @@ function jump() {
     $pikachu.classList.add("is-jumping");
     jumpDuration = setTimeout(function() {
       $pikachu.classList.remove("is-jumping");
-    }, 900);
+    }, 1000);
   }
 }
 
@@ -127,7 +125,6 @@ function mountainsBackgroundMove() {
 }
 
 function createMountains() {
-  console.log(isStarted);
   const $mountain = document.createElement("div");
   $mountain.classList.add("mountain");
   $mountain.classList.add("move");
@@ -157,6 +154,7 @@ function createCactus() {
   setInterval(function() {
     positionX -= 1;
     $cactus.style.left = positionX + "px";
+    pikaEatACactus();
   }, 8);
   cactusPosition.push($cactus);
 }
@@ -169,29 +167,31 @@ function removeCactus() {
 }
 
 function pikaEatACactus() {
-  let pikaPositionX = $pikachu.offsetLeft + $pikachu.offsetWidth - 10;
-  let pikaPositionY = $pikachu.offsetTop + $pikachu.offsetHeight - 5;
+  if (!pikaInvicible) {
+    let pikaPositionX = $pikachu.offsetLeft + $pikachu.offsetWidth - 10;
+    let pikaPositionY = $pikachu.offsetTop + $pikachu.offsetHeight - 5;
 
-  cactusPosition.forEach(function(cactus) {
-    if (
-      cactus.offsetLeft < pikaPositionX &&
-      $pikachu.offsetLeft + 20 < cactus.offsetLeft + cactus.offsetWidth &&
-      cactus.offsetTop < pikaPositionY
-    ) {
-      if (lifes > 0) {
-        lifes--;
-        clearInterval(pikaEatACactusTemplate);
-        $pikachu.classList.add("is-flashing");
-        $showLife.innerHTML = "Life : " + lifes;
-        setTimeout(function() {
-          $pikachu.classList.remove("is-flashing");
-          pikaEatACactusTemplate = setInterval(pikaEatACactus, 1);
-        }, 3000);
-      } else {
-        reset();
+    cactusPosition.forEach(function(cactus) {
+      if (
+        cactus.offsetLeft < pikaPositionX &&
+        $pikachu.offsetLeft + 20 < cactus.offsetLeft + cactus.offsetWidth &&
+        cactus.offsetTop < pikaPositionY
+      ) {
+        if (lifes > 0) {
+          lifes--;
+          pikaInvicible = true;
+          $pikachu.classList.add("is-flashing");
+          $showLife.innerHTML = "Life : " + lifes;
+          setTimeout(function() {
+            $pikachu.classList.remove("is-flashing");
+            pikaInvicible = false;
+          }, 3000);
+        } else {
+          reset();
+        }
       }
-    }
-  });
+    });
+  }
 }
 
 function reset() {
