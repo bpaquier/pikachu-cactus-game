@@ -8,7 +8,7 @@
   position: absolute;
   left: 100%;
   bottom: 0;
-  clip-path: polygon(49% 1%, 0% 100%, 100% 100%);
+  -webkit-clip-path: polygon(49% 1%, 0% 100%, 100% 100%);
   background: linear-gradient(to bottom, white, 5%, seagreen);
 }
 

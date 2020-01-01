@@ -22,26 +22,27 @@ let gameTemplate;
 let apparitionMountainsTemplate;
 let apparitionCactusTimeout;
 
-createPikachu();
 $showLife.innerHTML = "Life : " + lifes;
 $score.innerHTML = "Score : " + score;
 
+createPikachu();
+
 $startButton.addEventListener("click", function() {
-  move = true;
-
-  pikachuMove();
-  createMountains();
-  mountainsBackgroundMove();
-
-  apparitionMountainsTemplate = setInterval(createMountains, 8000);
-  gameTemplate = setInterval(function() {
-    apparitionCactusTimeout = setTimeout(createCactus, getRandomNumber());
-  }, 2300);
-
-  scoreTemplate = setInterval(increaseScore, 100);
+  start();
 });
 
 /* SECTION FUNCTIONS*/
+
+function start() {
+  pikachuMove();
+  createMountains();
+  mountainsBackgroundMove();
+  apparitionMountainsTemplate = setInterval(createMountains, 10000);
+  gameTemplate = setInterval(function() {
+    apparitionCactusTimeout = setTimeout(createCactus, getRandomNumber());
+  }, 2300);
+  scoreTemplate = setInterval(increaseScore, 100);
+}
 
 function createPikachu() {
   $pikachu = document.createElement("div");
@@ -75,28 +76,25 @@ function pikachuMove() {
   window.addEventListener("keydown", function(e) {
     let jumpDuration;
     let pikachuPosition = $pikachu.offsetLeft;
-    switch (e.key) {
-      case "ArrowUp":
+    switch (e.keyCode) {
+      case 38 || 32:
         if (!$pikachu.classList.contains("is-jumping")) {
-          $pikachu.classList.add("is-jumping");
-          jumpDuration = setTimeout(function() {
-            $pikachu.classList.remove("is-jumping");
-          }, 900);
+          jump();
         }
         break;
-      case "ArrowDown":
+      case 40:
         if ($pikachu.classList.contains("is-jumping")) {
           $pikachu.classList.remove("is-jumping");
           clearTimeout(jumpDuration);
         }
         break;
-      case "ArrowRight":
+      case 39:
         if (!$pikachu.classList.contains("is-jumping")) {
           pikachuPosition += 5;
           $pikachu.style.left = pikachuPosition + "px";
         }
         break;
-      case "ArrowLeft":
+      case 37:
         if (!$pikachu.classList.contains("is-jumping")) {
           pikachuPosition -= 5;
           $pikachu.style.left = pikachuPosition + "px";
@@ -104,8 +102,17 @@ function pikachuMove() {
         break;
     }
   });
+  window.addEventListener("click", function() {
+    jump();
+  });
 }
 
+function jump() {
+  $pikachu.classList.add("is-jumping");
+  jumpDuration = setTimeout(function() {
+    $pikachu.classList.remove("is-jumping");
+  }, 900);
+}
 function mountainsBackgroundMove() {
   $originalMountains.classList.add("move");
 }

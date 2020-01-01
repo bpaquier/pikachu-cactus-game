@@ -23,6 +23,11 @@
   background-image: url("../images/pikachuJump.png");
 }
 
+.game__pikachu.is-jumping.is-flashing {
+  animation: jump 1s, is-flashing 0.5s alternate infinite;
+  background-image: url("../images/pikachuJump.png");
+}
+
 .game__pikachu.is-dead {
   animation: loose 1.5s ease-out forwards;
 }
