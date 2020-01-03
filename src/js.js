@@ -6,12 +6,11 @@ const $originalMountains = document.querySelector(".mountain1");
 const $overlay = document.querySelector(".overlay");
 const $sun = document.querySelector(".game__sun");
 const $showLife = document.querySelector(".game__life");
+const $showLevel = document.querySelector(".game__levelUp");
 
 let isStarted = true;
-let isJumping = false;
 let pikaInvicible = false;
 
-let GAMEWIDTH = 700;
 let score = 0;
 let lifes = 4;
 
@@ -78,18 +77,17 @@ function increaseScore() {
 function pikachuMove() {
   $pikachu.classList.add("is-running");
   window.addEventListener("keydown", function(e) {
-    let jumpDuration;
     let pikachuPosition = $pikachu.offsetLeft;
     switch (e.keyCode) {
-      case 38 || 32:
-        if (!$pikachu.classList.contains("is-jumping")) {
-          jump();
-        }
+      case 32:
+        jump();
+        break;
+      case 32:
+        jump();
         break;
       case 40:
         if ($pikachu.classList.contains("is-jumping")) {
           $pikachu.classList.remove("is-jumping");
-          clearTimeout(jumpDuration);
         }
         break;
       case 39:
@@ -107,14 +105,14 @@ function pikachuMove() {
     }
   });
   document.addEventListener("click", function() {
-    jump();
+    // jump()
   });
 }
 
 function jump() {
-  if (!isJumping) {
+  if (!$pikachu.classList.contains("is-jumping")) {
     $pikachu.classList.add("is-jumping");
-    jumpDuration = setTimeout(function() {
+    setTimeout(function() {
       $pikachu.classList.remove("is-jumping");
     }, 1000);
   }
@@ -126,21 +124,17 @@ function mountainsBackgroundMove() {
 
 function createMountains() {
   const $mountain = document.createElement("div");
-  $mountain.classList.add("mountain");
-  $mountain.classList.add("move");
+  $mountain.classList.add("mountain", "move", "randomMountains");
 
   $mountain.style.width = getRandomNumberMountainSize() + "px";
   $mountain.style.height = getRandomNumberMountainSize() + "px";
   $mountainsSection.appendChild($mountain);
-
-  mountains.push($mountain);
 }
 
 function removeMountain() {
-  mountains.forEach(function(mountain) {
+  document.querySelectorAll(".randomMountains").forEach(function(mountain) {
     mountain.remove();
   });
-  mountains = [];
   $originalMountains.style.visibility = "hidden";
   $originalMountains.classList.remove("move");
   $originalMountains.style.left = "0px";
