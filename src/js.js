@@ -1,12 +1,12 @@
-const $game = document.querySelector(".game");
-const $startButton = document.querySelector(".start");
-const $score = document.querySelector(".game__score");
-const $mountainsSection = document.querySelector(".game__mountain");
-const $originalMountains = document.querySelector(".mountain1");
-const $overlay = document.querySelector(".overlay");
-const $sun = document.querySelector(".game__sun");
-const $showLife = document.querySelector(".game__life");
-const $showLevel = document.querySelector(".game__levelUp");
+const $game = document.querySelector('.game');
+const $startButton = document.querySelector('.start');
+const $score = document.querySelector('.game__score');
+const $mountainsSection = document.querySelector('.game__mountain');
+const $originalMountains = document.querySelector('.mountain1');
+const $overlay = document.querySelector('.overlay');
+const $sun = document.querySelector('.game__sun');
+const $showLife = document.querySelector('.game__life');
+const $showLevel = document.querySelector('.game__levelUp');
 
 let isStarted = true;
 let pikaInvicible = false;
@@ -22,12 +22,12 @@ let gameTemplate;
 let apparitionMountainsTemplate;
 let apparitionCactusTimeout;
 
-$showLife.innerHTML = "Life : " + lifes;
-$score.innerHTML = "Score : " + score;
+$showLife.innerHTML = 'Life : ' + lifes;
+$score.innerHTML = 'Score : ' + score;
 
 createPikachu();
 
-$startButton.addEventListener("click", function() {
+$startButton.addEventListener('click', function() {
   start();
 });
 
@@ -48,8 +48,8 @@ function start() {
 }
 
 function createPikachu() {
-  $pikachu = document.createElement("div");
-  $pikachu.classList.add("game__pikachu");
+  $pikachu = document.createElement('div');
+  $pikachu.classList.add('game__pikachu');
   $game.appendChild($pikachu);
 }
 
@@ -71,91 +71,90 @@ function getRandomNumberMountainSize() {
 
 function increaseScore() {
   score++;
-  $score.innerHTML = "SCORE : " + score;
+  $score.innerHTML = 'SCORE : ' + score;
 }
 
 function pikachuMove() {
-  $pikachu.classList.add("is-running");
-  window.addEventListener("keydown", function(e) {
+  $pikachu.classList.add('is-running');
+  window.addEventListener('keydown', function(e) {
     let pikachuPosition = $pikachu.offsetLeft;
     switch (e.keyCode) {
       case 32:
         jump();
         break;
-      case 32:
+      case 38:
         jump();
         break;
       case 40:
-        if ($pikachu.classList.contains("is-jumping")) {
-          $pikachu.classList.remove("is-jumping");
+        if ($pikachu.classList.contains('is-jumping')) {
+          $pikachu.classList.remove('is-jumping');
         }
         break;
       case 39:
-        if (!$pikachu.classList.contains("is-jumping")) {
+        if (!$pikachu.classList.contains('is-jumping')) {
           pikachuPosition += 5;
-          $pikachu.style.left = pikachuPosition + "px";
+          $pikachu.style.left = pikachuPosition + 'px';
         }
         break;
       case 37:
-        if (!$pikachu.classList.contains("is-jumping")) {
+        if (!$pikachu.classList.contains('is-jumping')) {
           pikachuPosition -= 5;
-          $pikachu.style.left = pikachuPosition + "px";
+          $pikachu.style.left = pikachuPosition + 'px';
         }
         break;
     }
   });
-  document.addEventListener("click", function() {
-    // jump()
+  document.addEventListener('click', function() {
+    jump();
   });
 }
 
 function jump() {
-  if (!$pikachu.classList.contains("is-jumping")) {
-    $pikachu.classList.add("is-jumping");
+  if (!$pikachu.classList.contains('is-jumping')) {
+    $pikachu.classList.add('is-jumping');
     setTimeout(function() {
-      $pikachu.classList.remove("is-jumping");
+      $pikachu.classList.remove('is-jumping');
     }, 1000);
   }
 }
 
 function mountainsBackgroundMove() {
-  $originalMountains.classList.add("move");
+  $originalMountains.classList.add('move');
 }
 
 function createMountains() {
-  const $mountain = document.createElement("div");
-  $mountain.classList.add("mountain", "move", "randomMountains");
+  const $mountain = document.createElement('div');
+  $mountain.classList.add('mountain', 'move', 'randomMountains');
 
-  $mountain.style.width = getRandomNumberMountainSize() + "px";
-  $mountain.style.height = getRandomNumberMountainSize() + "px";
+  $mountain.style.width = getRandomNumberMountainSize() + 'px';
+  $mountain.style.height = getRandomNumberMountainSize() + 'px';
   $mountainsSection.appendChild($mountain);
 }
 
 function removeMountain() {
-  document.querySelectorAll(".randomMountains").forEach(function(mountain) {
+  document.querySelectorAll('.randomMountains').forEach(function(mountain) {
     mountain.remove();
   });
-  $originalMountains.style.visibility = "hidden";
-  $originalMountains.classList.remove("move");
-  $originalMountains.style.left = "0px";
+  $originalMountains.style.visibility = 'hidden';
+  $originalMountains.classList.remove('move');
+  $originalMountains.style.left = '0px';
 }
 
 function createCactus() {
-  const $cactus = document.createElement("div");
-  $cactus.classList.add("game__cactus");
+  const $cactus = document.createElement('div');
+  $cactus.classList.add('game__cactus');
   $game.appendChild($cactus);
   let positionX = $cactus.offsetLeft;
   setInterval(function() {
     positionX -= 1;
-    $cactus.style.left = positionX + "px";
+    $cactus.style.left = positionX + 'px';
     pikaEatACactus();
   }, 8);
   cactusPosition.push($cactus);
 }
 
 function removeCactus() {
-  let allCactus = document.querySelectorAll(".game__cactus");
-  allCactus.forEach(function(cactus) {
+  document.querySelectorAll('.game__cactus').forEach(function(cactus) {
     cactus.remove();
   });
 }
@@ -165,7 +164,7 @@ function pikaEatACactus() {
     let pikaPositionX = $pikachu.offsetLeft + $pikachu.offsetWidth - 10;
     let pikaPositionY = $pikachu.offsetTop + $pikachu.offsetHeight - 5;
 
-    cactusPosition.forEach(function(cactus) {
+    document.querySelectorAll('.game__cactus').forEach(function(cactus) {
       if (
         cactus.offsetLeft < pikaPositionX &&
         $pikachu.offsetLeft + 20 < cactus.offsetLeft + cactus.offsetWidth &&
@@ -174,10 +173,10 @@ function pikaEatACactus() {
         if (lifes > 0) {
           lifes--;
           pikaInvicible = true;
-          $pikachu.classList.add("is-flashing");
-          $showLife.innerHTML = "Life : " + lifes;
+          $pikachu.classList.add('is-flashing');
+          $showLife.innerHTML = 'Life : ' + lifes;
           setTimeout(function() {
-            $pikachu.classList.remove("is-flashing");
+            $pikachu.classList.remove('is-flashing');
             pikaInvicible = false;
           }, 3000);
         } else {
@@ -198,20 +197,20 @@ function reset() {
   clearInterval(scoreTemplate);
   clearInterval(apparitionMountainsTemplate);
 
-  $pikachu.classList.add("is-dead");
-  $overlay.classList.add("is-visible");
-  $sun.style.visibility = "hidden";
+  $pikachu.classList.add('is-dead');
+  $overlay.classList.add('is-visible');
+  $sun.style.visibility = 'hidden';
 
   removeCactus();
   removeMountain();
 
   setTimeout(function() {
-    $overlay.classList.remove("is-visible");
-    $originalMountains.style.visibility = "visible";
-    $sun.style.visibility = "visible";
+    $overlay.classList.remove('is-visible');
+    $originalMountains.style.visibility = 'visible';
+    $sun.style.visibility = 'visible';
 
-    $showLife.innerHTML = "Life : " + lifes;
-    $score.innerHTML = "SCORE : " + score;
+    $showLife.innerHTML = 'Life : ' + lifes;
+    $score.innerHTML = 'SCORE : ' + score;
 
     $pikachu.remove();
     createPikachu();
