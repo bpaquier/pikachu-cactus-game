@@ -2,7 +2,7 @@
   position: absolute;
   width: 50px;
   height: 40px;
-  background-image: url("../images/pikachuStart.png");
+  background-image: url('../images/pikachuStart.png');
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: bottom;
@@ -11,7 +11,7 @@
 }
 
 .game__pikachu.is-running {
-  background-image: url("../images/pikachu.gif");
+  background-image: url('../images/pikachu.gif');
 }
 
 .game__pikachu.is-flashing {
@@ -20,15 +20,23 @@
 
 .game__pikachu.is-jumping {
   animation: jump 0.5s cubic-bezier(0.46, 1.06, 0.64, 0.99) alternate infinite;
-  background-image: url("../images/pikachuJump.png");
+  background-image: url('../images/pikachuJump.png');
 }
 
 .game__pikachu.is-jumping.is-flashing {
   animation: jump 0.5s cubic-bezier(0.46, 1.06, 0.64, 0.99) alternate infinite,
     is-flashing 0.5s alternate infinite;
-  background-image: url("../images/pikachuJump.png");
+  background-image: url('../images/pikachuJump.png');
 }
 
 .game__pikachu.is-dead {
   animation: loose 1.5s ease-out forwards;
+}
+
+.ball {
+  position: absolute;
+  width: 30px;
+  height: 1px;
+  background-color: greenyellow;
+  bottom: 120px;
 }

@@ -10,6 +10,7 @@ const $showLevel = document.querySelector('.game__levelUp');
 
 let isStarted = true;
 let pikaInvicible = false;
+let isShooting = false;
 
 let score = 0;
 let lifes = 4;
@@ -52,7 +53,7 @@ function createPikachu() {
   $pikachu.classList.add('game__pikachu');
   $game.appendChild($pikachu);
 }
-
+console.log($pikachu);
 function getRandomNumber() {
   let number;
   do {
@@ -79,9 +80,6 @@ function pikachuMove() {
   window.addEventListener('keydown', function(e) {
     let pikachuPosition = $pikachu.offsetLeft;
     switch (e.keyCode) {
-      case 32:
-        jump();
-        break;
       case 38:
         jump();
         break;
@@ -102,10 +100,10 @@ function pikachuMove() {
           $pikachu.style.left = pikachuPosition + 'px';
         }
         break;
+      case 32:
+        fireBall();
+        break;
     }
-  });
-  document.addEventListener('click', function() {
-    jump();
   });
 }
 
@@ -184,6 +182,26 @@ function pikaEatACactus() {
         }
       }
     });
+  }
+}
+
+function fireBall() {
+  if (!isShooting) {
+    isShooting = true;
+    const $fireBall = document.createElement('div');
+    $fireBall.classList.add('ball');
+    let positionY = $pikachu.offsetTop + 20;
+    let positionX = $pikachu.offsetLeft + $pikachu.offsetWidth;
+    $fireBall.style.top = positionY + 'px';
+    $fireBall.style.left = positionX - 10 + 'px';
+    $game.appendChild($fireBall);
+    setInterval(function() {
+      positionX += 1;
+      $fireBall.style.left = positionX + 'px';
+    }, 8);
+    setTimeout(function() {
+      isShooting = false;
+    }, 400);
   }
 }
 
